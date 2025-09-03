@@ -1,14 +1,14 @@
 `timescale 1ns / 1ps
 module increment(
     input clk, rst,
-    input [31:0] delaySet,
+    input [63:0] delaySet,
     input  signal,
     input [15:0] maxCount,
     output reg incremented, // pulse to indicate counter increase
     output reg [15:0] count // FFFF max
     );
     
-    reg [31:0] delay;
+    reg [63:0] delay;
     initial begin
         count = 0;
         delay = 10000;

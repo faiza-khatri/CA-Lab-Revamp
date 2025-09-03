@@ -2,12 +2,13 @@
 
 module sevenSeg(
     input clk, rst,              
-    input [15:0] count,            
+    input [15:0] count,    
+    input [1:0] digitSelect,       
     output reg [6:0] seg,           // 7-segment segments (a-g)
     output reg [3:0] an             // 4-digit anode control
 );
 
-    reg [1:0] digitSelect = 0;     // which digit to display (0-3)
+//    reg [1:0] digitSelect = 0;     // which digit to display (0-3)
     reg [3:0] currentDigit;        
     reg [19:0] refreshCounter = 0; 
 
@@ -17,10 +18,12 @@ module sevenSeg(
     wire [3:0] nibble3 = count[15:12];
 
 
-    always @(posedge clk) begin
-        refreshCounter <= refreshCounter + 1; // resets at max automatically
-        digitSelect <= refreshCounter[19:18]; // changes at ~1kHz
-    end
+
+//    always @(posedge clk) begin
+//        refreshCounter <= refreshCounter + 1; // resets at max automatically
+//        digitSelect <= refreshCounter[19:18]; // changes at ~1kHz
+//    end
+    
 
     // digit selection
     always @(*) begin

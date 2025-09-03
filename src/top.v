@@ -16,7 +16,7 @@ module top(
     debouncer deb1 (.clk(clk), .pbin(btnInc), .pbout(increaseDelay));
     debouncer deb2 (.clk(clk), .pbin(btnRst), .pbout(rst));
     
-    wire [31:0] currentDelay;
+    wire [63:0] currentDelay;
     setDelay setDelayInst(.clk(clk), .rst(rst), .increaseDelay(increaseDelay), .delaySet(currentDelay));
     
     wire [15:0] count;
@@ -28,5 +28,10 @@ module top(
     wire incremented; // pulse to indicate incement clock cycle
     increment inc (.clk(clk), .rst(rst), .delaySet(currentDelay), .signal(incrementCount), .maxCount(maxCount), .incremented(incremented), .count(count));
     
-    sevenSeg display(.clk(clk), .rst(rst), .count(count), .seg(seg), .an(an));
+    wire switchDigit;
+    wire [1:0] digitSelect;
+    counter countInst(.clk(clk), .rst(rst), .switchDigit(switchDigit));
+    segControl(.clk(clk), .rst(rst), .switchDigit(switchDigit), .digitSelect(digitSelect));
+    
+    sevenSeg display(.clk(clk), .rst(rst), .count(count), .digitSelect(digitSelect), .seg(seg), .an(an));
 endmodule
