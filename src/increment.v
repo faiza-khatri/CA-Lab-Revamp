@@ -14,7 +14,11 @@ module increment(
         delay = 10000;
     end
 
-     
+     // 10ns = 1 clock cycle
+     // 20 sec = 20 x 10^8 clock cycles (time period after which it should reset)
+     // time = delay * maxCount
+     // maxCount = (20 x 10^9) / delaySet
+
     always @(posedge clk) begin
         if(rst) begin
             count <= 0;
@@ -29,7 +33,7 @@ module increment(
                 end
                 else begin 
                     delay <= 0;
-                    count <= (count == maxCount) ? 0 : count + 1;
+                    count <= (count == 512/(delaySet/100000000)) ? 0 : count + 1;
                     incremented <= 1;
                 end
             end
