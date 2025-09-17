@@ -10,14 +10,16 @@ module alu1Bit(
 );
 
 wire sum, and_ab, or_ab, xor_ab;
-wire bFinal;
+wire bFinal, aFinal;
 
-assign bFinal = (ALUOp == 4'b0110) ? ~b : b;
+assign aFinal = ALUOp[3] ? ~a : a;
+assign bFinal = ALUOp[2] ? ~b : b;
+//assign bFinal = (ALUOp == 4'b0110) ? ~b : b;
 
-assign and_ab = a & b;
-assign or_ab  = a | b;
+assign and_ab = aFinal & bFinal;
+assign or_ab  = aFinal | bFinal;
 
-assign {carryOut, sum} = a + bFinal + carryIn;
+assign {carryOut, sum} = aFinal + bFinal + carryIn;
 
 always @(*) begin
     case (ALUOp)
@@ -25,7 +27,8 @@ always @(*) begin
         4'b0001: result = or_ab;
         4'b0010: result = sum;          // add
         4'b0110: result = sum;          // sub
-        4'b1100: result = ~(a | b);     // nor
+        4'b1100: result = and_ab;     // nor
+        4'b1101: result = or_ab;      // nand
         default: result = 0;
     endcase
 end
