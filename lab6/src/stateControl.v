@@ -31,11 +31,7 @@ always @(*) begin
     storeResult <= 0;
     case(state)
         IDLE: begin
-            nextState <= newOp ? INCREMENT_ADDRESS : IDLE;
-        end
-        INCREMENT_ADDRESS: begin
-            incrementAddress <= 1;
-            nextState <= GET_OPERANDS;
+            nextState <= newOp ? GET_OPERANDS : IDLE;
         end
         GET_OPERANDS: begin
             getOperands <= 1;
@@ -46,8 +42,12 @@ always @(*) begin
             operation <= 1;
         end
         STORE_RESULT: begin
-            nextState <= IDLE;
+            nextState <= INCREMENT_ADDRESS;
             storeResult <= 1;
+        end
+        INCREMENT_ADDRESS: begin
+            incrementAddress <= 1;
+            nextState <= IDLE;
         end
         default:
             nextState <= IDLE;
