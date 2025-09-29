@@ -18,7 +18,11 @@ reg [2:0] state, nextState;
 
 always @(posedge clk) begin
     if(rst) begin
-        state <= OPERATION;
+        state <= IDLE;
+        getOperands <= 0;
+        operation <= 0;
+        incrementAddress <= 0;
+        storeResult <= 0;
     end else begin
         state <= nextState;
     end
