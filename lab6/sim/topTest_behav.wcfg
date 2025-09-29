@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="topTest_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="topTest" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="57600fs"></ZoomStartTime>
+      <ZoomEndTime time="583601fs"></ZoomEndTime>
+      <Cursor1Time time="385000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="291"></NameColumnWidth>
+      <ValueColumnWidth column_width="122"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="13" />
+   <wvobject fp_name="/topTest/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/btnC" type="logic">
+      <obj_property name="ElementShortName">btnC</obj_property>
+      <obj_property name="ObjectShortName">btnC</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/uut/stateCntrl/state" type="array">
+      <obj_property name="ElementShortName">state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/uut/delay/newOp" type="logic">
+      <obj_property name="ElementShortName">newOp</obj_property>
+      <obj_property name="ObjectShortName">newOp</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/uut/stateCntrl/getOperands" type="logic">
+      <obj_property name="ElementShortName">getOperands</obj_property>
+      <obj_property name="ObjectShortName">getOperands</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/uut/stateCntrl/operation" type="logic">
+      <obj_property name="ElementShortName">operation</obj_property>
+      <obj_property name="ObjectShortName">operation</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/uut/stateCntrl/storeResult" type="logic">
+      <obj_property name="ElementShortName">storeResult</obj_property>
+      <obj_property name="ObjectShortName">storeResult</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/uut/stateCntrl/incrementAddress" type="logic">
+      <obj_property name="ElementShortName">incrementAddress</obj_property>
+      <obj_property name="ObjectShortName">incrementAddress</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/uut/address/address" type="array">
+      <obj_property name="ElementShortName">address[4:0]</obj_property>
+      <obj_property name="ObjectShortName">address[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/uut/regFile/readData1" type="array">
+      <obj_property name="ElementShortName">readData1[63:0]</obj_property>
+      <obj_property name="ObjectShortName">readData1[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/uut/regFile/readData2" type="array">
+      <obj_property name="ElementShortName">readData2[63:0]</obj_property>
+      <obj_property name="ObjectShortName">readData2[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/leds" type="array">
+      <obj_property name="ElementShortName">leds[7:0]</obj_property>
+      <obj_property name="ObjectShortName">leds[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/topTest/uut/delay/counter" type="array">
+      <obj_property name="ElementShortName">counter[26:0]</obj_property>
+      <obj_property name="ObjectShortName">counter[26:0]</obj_property>
+   </wvobject>
+</wave_config>
