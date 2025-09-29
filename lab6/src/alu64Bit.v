@@ -5,7 +5,6 @@ module alu64Bit(
     input  [63:0] b,
     input  [3:0] ALUOp,
     output [63:0] result,
-    output zero,
     output carryOut
 );
 

@@ -3,11 +3,12 @@
 module top(
     input clk,
     input btnC,
-    output [7:0] leds
+    output [15:0] led
     );
     
+    wire rst = btnC;
     wire newOp, getOperands, operation, incrementAddress, storeResult;
-    wire zero, carryOut;
+    wire carryOut;
     wire [63:0] operand1, operand2, result;
     wire [4:0] rs1, rs2;
     
@@ -19,7 +20,7 @@ module top(
     .operation(operation), 
     .storeResult(storeResult));
     
-    delayCounter delay(.clk(clk), .rst(btnC), .newOp(newOp));
+    delayCounter delay(.clk(clk), .rst(rst), .newOp(newOp));
     addressCounter address(.clk(clk), .rst(btnC), .incrementAddress(incrementAddress), .address(rs1));
     
     assign rs2 = rs1 + 1;
@@ -39,7 +40,6 @@ module top(
         .b(operand2),
         .ALUOp(4'b0010),
         .result(result),
-        .zero(zero),
         .carryOut(carryOut));
     
     assign rs2 = rs1 + 1;
@@ -49,7 +49,7 @@ module top(
         .rst(rst),
         .result(result),
         .display(storeResult), // result may also display while in the process of storing
-        .leds(leds));
+        .leds(led));
     
     
     

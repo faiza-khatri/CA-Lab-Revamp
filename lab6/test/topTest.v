@@ -10,7 +10,7 @@ wire [7:0] leds;
 top uut (
     .clk(clk),
     .btnC(btnC),
-    .leds(leds)
+    .led(leds)
 );
 
 initial begin
