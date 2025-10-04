@@ -3,14 +3,19 @@
 module top(
     input clk,
     input btnC,
-    output [15:0] led
+    output [6:0] seg,           // 7-segment segments (a-g)
+    output [3:0] an
     );
     
-    wire rst = btnC;
-    wire newOp, getOperands, operation, incrementAddress, storeResult;
+    wire rst;
+    wire newOp, getOperands, operation, incrementAddress, storeResult, switchDigit;
+    wire [1:0] digitSelect;
     wire carryOut;
     wire [63:0] operand1, operand2, result;
+    reg [15:0] resultDisplay;
     wire [4:0] rs1, rs2;
+    
+    debouncer rstBtn(.clk(clk), .pbin(btnC), .pbout(rst));
     
 //    assign leds = newOp;
     stateControl stateCntrl(
@@ -23,7 +28,8 @@ module top(
 //    .led(led)
     );
     
-    delayCounter delay(.clk(clk), .rst(rst), .newOp(newOp)
+    delayCounter #(.DELAY(1000000000)) 
+        delay(.clk(clk), .rst(rst), .indicator(newOp)
 //    .led(led)
     );
     addressCounter address(.clk(clk), .rst(btnC), .incrementAddress(incrementAddress), .address(rs1));
@@ -48,13 +54,17 @@ module top(
         .carryOut(carryOut));
     
     assign rs2 = rs1 + 1;
+    always @(posedge clk) begin
+        if(rst) resultDisplay <= 0;
+        else if(storeResult) resultDisplay <= result;
+    end
     
-    leds ledDisplay(
-        .clk(clk),
-        .rst(rst),
-        .result(result),
-        .display(storeResult), // result may also display while in the process of storing
-        .leds(led));
+    delayCounter #(.DELAY(1024))
+    segDelay (.clk(clk), .rst(rst), .indicator(switchDigit));
+
+    segControl(.clk(clk), .rst(rst), .switchDigit(switchDigit), .digitSelect(digitSelect));
+    
+    sevenSeg display(.clk(clk), .rst(rst), .result(resultDisplay), .digitSelect(digitSelect), .seg(seg), .an(an));
     
     
     
