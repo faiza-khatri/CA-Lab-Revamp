@@ -12,15 +12,20 @@ module top(
     wire [63:0] operand1, operand2, result;
     wire [4:0] rs1, rs2;
     
+//    assign leds = newOp;
     stateControl stateCntrl(
     .clk(clk), .rst(rst), 
     .newOp(newOp), 
     .incrementAddress(incrementAddress),
     .getOperands(getOperands), 
     .operation(operation), 
-    .storeResult(storeResult));
+    .storeResult(storeResult)
+//    .led(led)
+    );
     
-    delayCounter delay(.clk(clk), .rst(rst), .newOp(newOp));
+    delayCounter delay(.clk(clk), .rst(rst), .newOp(newOp)
+//    .led(led)
+    );
     addressCounter address(.clk(clk), .rst(btnC), .incrementAddress(incrementAddress), .address(rs1));
     
     assign rs2 = rs1 + 1;
