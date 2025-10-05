@@ -4,15 +4,15 @@ module top(
     input clk,
     input btnC,
     output [6:0] seg,           // 7-segment segments (a-g)
-    output [3:0] an
+    output [3:0] an,
+    output [15:0] led
     );
     
     wire rst;
-    wire newOp, getOperands, operation, incrementAddress, storeResult, switchDigit;
-    wire [1:0] digitSelect;
+    wire newOp, getOperands, operation, incrementAddress, storeResult;
     wire carryOut;
     wire [63:0] operand1, operand2, result;
-    reg [15:0] resultDisplay;
+//    reg [15:0] resultDisplay;
     wire [4:0] rs1, rs2;
     
     debouncer rstBtn(.clk(clk), .pbin(btnC), .pbout(rst));
@@ -32,7 +32,9 @@ module top(
         delay(.clk(clk), .rst(rst), .indicator(newOp)
 //    .led(led)
     );
-    addressCounter address(.clk(clk), .rst(btnC), .incrementAddress(incrementAddress), .address(rs1));
+    addressCounter address(.clk(clk), .rst(btnC), .incrementAddress(incrementAddress), .address(rs1),
+    .led(led)
+    );
     
     assign rs2 = rs1 + 1;
     registerFile regFile(
@@ -54,18 +56,13 @@ module top(
         .carryOut(carryOut));
     
     assign rs2 = rs1 + 1;
-    always @(posedge clk) begin
-        if(rst) resultDisplay <= 0;
-        else if(storeResult) resultDisplay <= result;
-    end
     
-    delayCounter #(.DELAY(1024))
-    segDelay (.clk(clk), .rst(rst), .indicator(switchDigit));
-
-    segControl(.clk(clk), .rst(rst), .switchDigit(switchDigit), .digitSelect(digitSelect));
-    
-    sevenSeg display(.clk(clk), .rst(rst), .result(resultDisplay), .digitSelect(digitSelect), .seg(seg), .an(an));
-    
-    
+    segTop display (
+        .clk(clk), .rst(rst),
+        .displayResult(storeResult),
+        .an(an),
+        .seg(seg),
+        .result(result)
+        );
     
 endmodule

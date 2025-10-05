@@ -23,13 +23,19 @@ initial begin
 end
 
 always@(posedge clk) begin
-    if(regWrite) registers[rd] <= writeData;
+    if(rst) begin
+        for(i = 0; i < 32; i=i+1) begin
+            registers[i] = 64'd0 + i; 
+        end 
+    end
+    else if(regWrite) registers[rd] <= writeData;
 end
 
 always@(*) begin
     if(rst) begin
         readData1 = 64'b0;
         readData2 = 64'b0;
+        
     end else begin
         readData1 = registers[rs1];
         readData2 = registers[rs2];
