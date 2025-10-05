@@ -3,7 +3,7 @@
 module segTop(
     input clk, rst, 
     input displayResult,
-    input [63:0] result,
+    input [15:0] result,
     output [6:0] seg,           // 7-segment segments (a-g)
     output [3:0] an
     );
@@ -16,6 +16,7 @@ module segTop(
         if(rst) resultDisplay <= 0;
         else if(displayResult) resultDisplay <= result;
     end
+    
     delayCounter #(.DELAY(1024))
     segDelay (.clk(clk), .rst(rst), .indicator(switchDigit));
 

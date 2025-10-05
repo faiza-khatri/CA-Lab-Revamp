@@ -13,8 +13,9 @@ module top(
     wire carryOut;
     wire [63:0] operand1, operand2, result;
     wire [3:0] ALUOp;
-//    reg [15:0] resultDisplay;
     wire [4:0] rs1, rs2;
+    
+//    reg [15:0] resultDisplay;
     
     debouncer rstBtn(.clk(clk), .pbin(btnC), .pbout(rst));
     
@@ -63,13 +64,14 @@ module top(
         .carryOut(carryOut));
     
     assign rs2 = rs1 + 1;
+ 
     
     segTop display (
         .clk(clk), .rst(rst),
         .displayResult(storeResult),
         .an(an),
         .seg(seg),
-        .result(result)
+        .result(result[15:0])
         );
     
 endmodule
