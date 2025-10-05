@@ -2,7 +2,7 @@
 
 module sevenSeg(
     input clk, rst,              
-    input [15:0] count,    
+    input [15:0] result,    
     input [1:0] digitSelect,       
     output reg [6:0] seg,           // 7-segment segments (a-g)
     output reg [3:0] an             // 4-digit anode control
@@ -12,10 +12,10 @@ module sevenSeg(
     reg [3:0] currentDigit;        
     reg [19:0] refreshCounter = 0; 
 
-    wire [3:0] nibble0 = count[3:0];
-    wire [3:0] nibble1 = count[7:4];
-    wire [3:0] nibble2 = count[11:8];
-    wire [3:0] nibble3 = count[15:12];
+    wire [3:0] nibble0 = result[3:0];
+    wire [3:0] nibble1 = result[7:4];
+    wire [3:0] nibble2 = result[11:8];
+    wire [3:0] nibble3 = result[15:12];
 
 
 

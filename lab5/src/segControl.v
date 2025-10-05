@@ -3,7 +3,7 @@
 module segControl(
     input clk, rst,
     input switchDigit,
-    output reg [3:0] digitSelect
+    output reg [1:0] digitSelect
     );
     
 // digit selection states

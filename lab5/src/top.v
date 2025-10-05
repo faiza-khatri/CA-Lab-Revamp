@@ -28,10 +28,18 @@ module top(
     wire incremented; // pulse to indicate incement clock cycle
     increment inc (.clk(clk), .rst(rst), .delaySet(currentDelay), .signal(incrementCount), .maxCount(maxCount), .incremented(incremented), .count(count));
     
-    wire switchDigit;
-    wire [1:0] digitSelect;
-    counter countInst(.clk(clk), .rst(rst), .switchDigit(switchDigit));
-    segControl(.clk(clk), .rst(rst), .switchDigit(switchDigit), .digitSelect(digitSelect));
+    segTop display(
+        .clk(clk), .rst(rst),
+        .displayResult(incremented),
+        .result(count),
+        .seg(seg),
+        .an(an)
+        );
     
-    sevenSeg display(.clk(clk), .rst(rst), .count(count), .digitSelect(digitSelect), .seg(seg), .an(an));
+//    wire switchDigit;
+//    wire [1:0] digitSelect;
+//    counter countInst(.clk(clk), .rst(rst), .switchDigit(switchDigit));
+//    segControl(.clk(clk), .rst(rst), .switchDigit(switchDigit), .digitSelect(digitSelect));
+    
+//    sevenSeg display(.clk(clk), .rst(rst), .count(count), .digitSelect(digitSelect), .seg(seg), .an(an));
 endmodule
