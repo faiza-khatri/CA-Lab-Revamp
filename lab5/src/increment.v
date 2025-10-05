@@ -33,7 +33,7 @@ module increment(
                 end
                 else begin 
                     delay <= 0;
-                    count <= (count == 512/(delaySet/100000000)) ? 0 : count + 1;
+                    count <= (count == 20/(delaySet/100000000)) ? 0 : count + 1;
                     incremented <= 1;
                 end
             end
