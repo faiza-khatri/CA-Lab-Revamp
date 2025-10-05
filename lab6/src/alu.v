@@ -22,13 +22,10 @@ assign or_ab  = aFinal | bFinal;
 assign {carryOut, sum} = aFinal + bFinal + carryIn;
 
 always @(*) begin
-    case (ALUOp)
-        4'b0000: result = and_ab;
-        4'b0001: result = or_ab;
-        4'b0010: result = sum;          // add
-        4'b0110: result = sum;          // sub
-        4'b1100: result = and_ab;     // nor
-        4'b1101: result = or_ab;      // nand
+    case (ALUOp[1:0])
+        2'b00: result = and_ab;
+        2'b01: result = or_ab;
+        2'b10: result = sum;          // add
         default: result = 0;
     endcase
 end
