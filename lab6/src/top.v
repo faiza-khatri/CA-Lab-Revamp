@@ -12,6 +12,7 @@ module top(
     wire newOp, getOperands, operation, incrementAddress, storeResult;
     wire carryOut;
     wire [63:0] operand1, operand2, result;
+    wire [3:0] ALUOp;
 //    reg [15:0] resultDisplay;
     wire [4:0] rs1, rs2;
     
@@ -48,10 +49,16 @@ module top(
         .readData1(operand1),
         .readData2(operand2));
         
+    ALUOpGenerator aluOpGen (
+        .clk(clk), .rst(rst),
+        .rs1(rs1),
+        .ALUOp(ALUOp)
+        );
+        
     alu64Bit alu64BitInst(
-        .a(operand1),
-        .b(operand2),
-        .ALUOp(4'b0010),
+        .a(operand2),
+        .b(operand1),
+        .ALUOp(ALUOp),
         .result(result),
         .carryOut(carryOut));
     
