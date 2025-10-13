@@ -47,6 +47,7 @@ module addressDecoderTop(
         .writeData(writeData),
         .writeEnable(ledWriteEnable),
         .readEnable(1'b0), // output device is not read
+        .memAddress(64'b0),
         .seg(seg),
         .an(an)
         );

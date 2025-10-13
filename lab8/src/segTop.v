@@ -6,7 +6,7 @@ module segTop(
     input [31:0] writeData,
     input writeEnable,
     input readEnable,
-    input [31:0] memAddress,
+    input [63:0] memAddress,
     
     output reg  [31:0] readData = 0, // not to be read       
     output [6:0] seg,           // 7-segment segments (a-g)
