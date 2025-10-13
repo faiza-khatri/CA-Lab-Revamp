@@ -4,8 +4,7 @@ module top(
     input clk,
     input btnC,
     output [6:0] seg,           // 7-segment segments (a-g)
-    output [3:0] an,
-    output [15:0] led
+    output [3:0] an
     );
     
     wire rst;
@@ -34,8 +33,8 @@ module top(
         delay(.clk(clk), .rst(rst), .indicator(newOp)
 //    .led(led)
     );
-    addressCounter address(.clk(clk), .rst(btnC), .incrementAddress(incrementAddress), .address(rs1),
-    .led(led)
+    addressCounter address(.clk(clk), .rst(btnC), .incrementAddress(incrementAddress), .address(rs1)
+//    .led(led)
     );
     
     assign rs2 = rs1 + 1;
@@ -68,10 +67,13 @@ module top(
     
     segTop display (
         .clk(clk), .rst(rst),
-        .displayResult(storeResult),
+        .writeData(result),
+        .writeEnable(storeResult),
+        .readEnable(1'b0),
+        .memAddress(64'b0),
         .an(an),
-        .seg(seg),
-        .result(result[15:0])
+        .seg(seg)
+      
         );
     
 endmodule
