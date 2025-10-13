@@ -26,12 +26,17 @@ module top(
     wire incrementCount = 1;
     
     wire incremented; // pulse to indicate incement clock cycle
-    increment inc (.clk(clk), .rst(rst), .delaySet(currentDelay), .signal(incrementCount), .maxCount(maxCount), .incremented(incremented), .count(count));
+    increment inc (.clk(clk), .rst(rst), .delaySet(currentDelay), 
+    .signal(incrementCount), .maxCount(maxCount), .incremented(incremented), 
+    .count(count)
+    );
     
     segTop display(
         .clk(clk), .rst(rst),
-        .displayResult(incremented),
-        .result(count),
+        .writeEnable(incremented),
+        .writeData({16'b0, count}),
+        .readEnable(1'b0),
+        .memAddress(64'b0),
         .seg(seg),
         .an(an)
         );

@@ -1,9 +1,14 @@
 `timescale 1ns / 1ps
 
 module segTop(
-    input clk, rst, 
-    input displayResult,
-    input [15:0] result,
+    input clk,
+    input rst,
+    input [31:0] writeData,
+    input writeEnable,
+    input readEnable,
+    input [63:0] memAddress,
+    
+    output reg  [31:0] readData = 0, // not to be read       
     output [6:0] seg,           // 7-segment segments (a-g)
     output [3:0] an
     );
@@ -14,7 +19,7 @@ module segTop(
     
     always @(posedge clk) begin
         if(rst) resultDisplay <= 0;
-        else if(displayResult) resultDisplay <= result;
+        else if(writeEnable) resultDisplay <= writeData[15:0];
     end
     
     delayCounter #(.DELAY(1024))
