@@ -16,7 +16,7 @@ module writeDeMux(
             ledWriteEnable <= 0;
         end
 
-        if (selLed) begin
+        else if (selLed) begin
             dataMemWriteEnable <= 0;
             ledWriteEnable <= writeEnable;
         end

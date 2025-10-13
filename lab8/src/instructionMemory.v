@@ -1,12 +1,7 @@
 `timescale 1ns / 1ps
 module instructionMemory(
-    input clk, rst,
-    input writeEnable, // not to be used
-    input readEnable,
-    input [63:0] memAddress,
-    input [31:0] writeData, // not to be used
-    output reg [31:0] readData
-    );
+    input [63:0] instAddress,
+	output reg [31:0] instruction);
 
 reg [7:0] memory [123:0];
 initial begin
@@ -167,8 +162,8 @@ initial begin
     memory[1] = 8'b00000010;
     memory[0] = 8'b10010011;
 end
-always @(memAddress)
+always @(instAddress)
 	begin
-		readData={memory[memAddress+3],memory[memAddress+2],memory[memAddress+1],memory[memAddress]};
+		instruction={memory[instAddress+3],memory[instAddress+2],memory[instAddress+1],memory[instAddress]};
 	end
 endmodule

@@ -6,7 +6,7 @@ module dataMemory(
     input writeEnable, readEnable,
     input [63:0] memAddress,
     input [31:0] writeData,
-    output [31:0] readData
+    output reg [31:0] readData
 //	output reg [63:0] readData
 	);
 
@@ -33,11 +33,11 @@ end
 
 always @ (*) begin
 	if (readEnable) begin
-			readData = {dataMemory[memAddress+3],
+			readData <= {dataMemory[memAddress+3],
 			dataMemory[memAddress+2],
 			dataMemory[memAddress+1],
 			dataMemory[memAddress]};
 	end else begin
-	readData = 64'b0; end
+	readData <= 64'b0; end
 	end
 endmodule

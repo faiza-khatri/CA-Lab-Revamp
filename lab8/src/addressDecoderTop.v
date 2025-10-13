@@ -1,0 +1,72 @@
+`timescale 1ns / 1ps
+
+module addressDecoderTop(
+    input clk, rst,
+    input [31:0] address,
+    input [63:0] memAddress,
+    input readEnable, writeEnable,
+    input [31:0] writeData,
+    input [15:0] switches,
+    
+    output [31:0] readData,
+    output [15:0] leds
+    );
+    
+    wire selDataMem, selSwitch, selLed;
+    wire ledWriteEnable, dataMemWriteEnable;
+    
+    wire [31:0] dataMemReadData, switchReadData;
+     
+    addressDecoder decode (
+        .address(address),
+        .selDataMem(selDataMem),
+        .selSwitch(selSwitch),
+        .selLed(selLed)
+        );
+    
+    writeDeMux writeSelect (
+        .writeEnable (writeEnable),
+        .selDataMem (selDataMem),
+        .selLed (selLed),
+        .ledWriteEnable (ledWriteEnable),
+        .dataMemWriteEnable (dataMemWriteEnable)
+        );
+        
+    leds ledsInst (
+        .clk(clk),
+        .rst(rst),
+        .writeData(writeData),
+        .writeEnable(ledWriteEnable),
+        .readEnable(1'b0), // output device is not read
+        .leds(leds)
+        );
+    
+    switches switchesInst (
+        .clk(clk),
+        .rst(rst),
+        .writeEnable(1'b0), // input device is not written
+        .writeData(32'b0),
+        .switches(switches),
+        .readEnable(readEnable && selSwitch),
+        .readData(switchReadData)
+        );
+    
+    dataMemory dataMem (
+        .clk(clk),
+        .rst(rst),
+        .writeEnable(dataMemWriteEnable),
+        .writeData(writeData),
+        .memAddress(memAddress),
+        .readEnable(readEnable && selDataMem),
+        .readData (dataMemReadData)
+        );
+        
+    readMux readSelect (
+        .dataMemReadData (dataMemReadData),
+        .switchReadData(switchReadData),
+        .selDataMem(selDataMem),
+        .selSwitch(selSwitch),
+        .readEnable(readEnable),
+        .readData(readData)
+        );
+endmodule

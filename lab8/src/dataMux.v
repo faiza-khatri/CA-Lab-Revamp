@@ -2,21 +2,18 @@
 
 module readMux(
     input [31:0] dataMemReadData,
-    input [31:0] instMemReadData,
-    input [31:0] btnReadData,
+    input [31:0] switchReadData,
 
     input selDataMem,
-    input selInstMem,
-    input selBtn,
+    input selSwitch,
     input readEnable,
     
-    output reg  [31:0] readData
+    output reg  [31:0] readData = 0
 );
     always @(*) begin
-        if (readEnable && selDataMem) readData <= dataMemReadData;
-        else if (readEnable && selInstMem) readData <= instMemReadData;
-        else if (readEnable && selBtn) readData <= btnReadData;
-        else readData <= 32'h0;
+        if (readEnable && selDataMem) readData = dataMemReadData;
+        else if (readEnable && selSwitch) readData = switchReadData;
+        else readData = 32'h0;
     end
 endmodule
 
