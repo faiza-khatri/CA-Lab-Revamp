@@ -9,7 +9,8 @@ module addressDecoderTop(
     input [15:0] switches,
     
     output [31:0] readData,
-    output [15:0] leds
+    output [6:0] seg,           // 7-segment segments (a-g)
+    output [3:0] an
     );
     
     wire selDataMem, selSwitch, selLed;
@@ -32,13 +33,22 @@ module addressDecoderTop(
         .dataMemWriteEnable (dataMemWriteEnable)
         );
         
-    leds ledsInst (
-        .clk(clk),
-        .rst(rst),
+//    leds ledsInst (
+//        .clk(clk),
+//        .rst(rst),
+//        .writeData(writeData),
+//        .writeEnable(ledWriteEnable),
+//        .readEnable(1'b0), // output device is not read
+//        .leds(leds)
+//        );
+
+    segTop sevenSegDisplay (
+        .clk(clk), .rst(rst),
         .writeData(writeData),
         .writeEnable(ledWriteEnable),
         .readEnable(1'b0), // output device is not read
-        .leds(leds)
+        .seg(seg),
+        .an(an)
         );
     
     switches switchesInst (

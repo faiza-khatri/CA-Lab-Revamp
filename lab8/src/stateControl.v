@@ -5,7 +5,8 @@ module stateControl(
     input [31:0] writeData,
     output reg [31:0] address = 0,
     output reg [31:0] readData,
-    output reg readEnable = 0, writeEnable = 0
+    output reg readEnable = 0, writeEnable = 0,
+    output reg writeOut
     );
     
     parameter READ_IN = 2'd0;
@@ -27,6 +28,7 @@ module stateControl(
     always @(*) begin
         readEnable <= 0;
         writeEnable <= 0;
+        writeOut <= 0;
         case(state)
             READ_IN: begin
                 address <= 32'h80000000; // switch
@@ -47,6 +49,7 @@ module stateControl(
                 address <= 32'h40000000; // led
                 writeEnable <= 1;
                 nextState <= READ_IN;
+                writeOut <= 1;
             end
         endcase 
     end
