@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module aluControl(
+module aluControl (
     input [1:0] ALUOp,
     input [3:0] funct,
     output reg [3:0] operation

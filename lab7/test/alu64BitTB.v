@@ -1,86 +1,43 @@
 `timescale 1ns / 1ps
 
 module alu64BitTB();
-reg clk, rst;
+
 reg [63:0] a, b;
-reg [3:0] funct;
-reg [1:0] ALUOp;
-
-
-wire zero;
+reg [3:0] ALUOp;
 wire [63:0] result;
-wire [3:0] operation;
+wire zero, carryOut;
 
-top uut (
-    .clk(clk),
-    .rst(rst),
+alu64Bit alu64BitInst (
     .a(a),
     .b(b),
-    .operation(operation),
-    .result(result),
-    .funct(funct),
     .ALUOp(ALUOp),
-    .zero(zero)
+    .result(result),
+    .zero(zero),
+    .carryOut(carryOut)
 );
 
-always #5 clk = ~clk;  // 100MHz clock
-
 initial begin
-    clk = 0;
-    rst = 1;
-    a = 0;
-    b = 0;
-    funct = 4'b0000;
-    ALUOp = 2'b00;
-    
-    #10 rst = 0;
+    a = 64'd10; b = 64'd55; ALUOp = 4'b0010; //add
+    #10;
+    $display("ADD: %d + %d = %d", a, b, result);
 
-    a = 64'd15;
-    b = 64'd10;
-    ALUOp = 2'b10;  // rtype
-    funct = 4'b0000; // add
-    #20;
-    $display("ADD: %d + %d = %d, zero=%b", a, b, uut.result, zero);
+    ALUOp = 4'b0110; //sub
+    #10;
+    $display("SUB: %d - %d = %d", a, b, result);
 
-    a = 64'd20;
-    b = 64'd5;
-    funct = 4'b1000; // sub
-    #20;
-    $display("SUB: %d - %d = %d, zero=%b", a, b, uut.result, zero);
+    ALUOp = 4'b0000; //and
+    #10;
+    $display("AND: %h & %h = %h", a, b, result);
 
-    a = 64'hF0F0;
-    b = 64'h0FF0;
-    funct = 4'b0111; // and
-    #20;
-    $display("AND: %h & %h = %h", a, b, uut.result);
+    ALUOp = 4'b0001; //or
+    #10;
+    $display("OR: %h | %h = %h", a, b, result);
 
-    a = 64'hF0F0;
-    b = 64'h0FF0;
-    funct = 4'b0110; // or
-    #20;
-    $display("OR: %h | %h = %h", a, b, uut.result);
+    ALUOp = 4'b1100; // nor
+    #10;
+    $display("NOR: %h NOR %h = %h", a, b, result);
 
-    a = 64'h0000000000000001;
-    b = 64'd4;
-    funct = 4'b0001; // slli
-    #20;
-    $display("SLLI: %h << %d = %h", a, b, uut.result);
-
-    a = 64'd50;
-    b = 64'd50;
-    ALUOp = 2'b01;   // branch
-    funct = 4'b0000;
-    #20;
-    $display("BEQ: %d - %d, zero=%b (should branch)", a, b, zero);
-
-    a = 64'd25;
-    b = 64'd50;
-    ALUOp = 2'b01;   // branch
-    #20;
-    $display("BEQ: %d - %d, zero=%b (should NOT branch)", a, b, zero);
-
-    #50;
     $finish;
 end
-
 endmodule
+

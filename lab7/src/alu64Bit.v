@@ -5,18 +5,14 @@ module alu64Bit(
     input  [63:0] b,
     input  [3:0] ALUOp,
     output [63:0] result,
-    output zero,
     output carryOut
 );
 
 wire [63:0] carry;
 wire [63:0] res;
 
-reg [63:0] resSlli = 0;
-
 assign zero = (res == 64'b0);
 assign carryOut = carry[63];
-
 
 genvar i;
 generate
@@ -33,12 +29,6 @@ generate
     end
 endgenerate
 
-
-always @(ALUOp) begin
-   resSlli = a >> b;
-end
-
-assign result = (ALUOp == 4'b0100) ? resSlli : res;
-
+assign result = res;
 
 endmodule

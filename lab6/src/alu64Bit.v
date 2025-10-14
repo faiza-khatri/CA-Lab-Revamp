@@ -1,22 +1,29 @@
 `timescale 1ns / 1ps
 
-module alu64Bit(
-    input  [63:0] a,
-    input  [63:0] b,
+module aluNBit#(
+    parameter OPERAND_LENGTH = 31
+    )(
+    input  [OPERAND_LENGTH:0] a,
+    input  [OPERAND_LENGTH:0] b,
     input  [3:0] ALUOp,
-    output [63:0] result,
+    output [OPERAND_LENGTH:0] result,
+    output zero, lessThan,
     output carryOut
 );
 
-wire [63:0] carry;
-wire [63:0] res;
+wire [OPERAND_LENGTH:0] carry;
+wire [OPERAND_LENGTH:0] res;
 
-assign zero = (res == 64'b0);
-assign carryOut = carry[63];
+reg [OPERAND_LENGTH:0] resSlli = 0;
+
+assign zero = (res == 0);
+assign lessThan = (res[OPERAND_LENGTH]); // if res is negative
+assign carryOut = carry[OPERAND_LENGTH];
+
 
 genvar i;
 generate
-    for (i = 0; i < 64; i = i + 1) begin : alu_loop
+    for (i = 0; i < OPERAND_LENGTH+1; i = i + 1) begin : alu_loop
 
             alu1Bit aluInst (
                 .a(a[i]),
@@ -29,6 +36,12 @@ generate
     end
 endgenerate
 
-assign result = res;
+
+always @(ALUOp) begin
+   resSlli = a >> b;
+end
+
+assign result = (ALUOp == 4'b0100) ? resSlli : res;
+
 
 endmodule
