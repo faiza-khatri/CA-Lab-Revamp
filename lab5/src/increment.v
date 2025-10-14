@@ -1,50 +1,25 @@
 `timescale 1ns / 1ps
-module increment(
+module increment #(
+    parameter COUNT_LENGTH = 15,
+    parameter MAX_VAL = 20,
+    parameter DEFAULT_VALUE = 1
+    ) (
     input clk, rst,
-    input [63:0] delaySet,
+    input [10:0] step,
     input  signal,
-    input [15:0] maxCount,
     output reg incremented, // pulse to indicate counter increase
-    output reg [15:0] count // FFFF max
+    output reg [COUNT_LENGTH:0] count = 1 
     );
+   
     
-    reg [63:0] delay;
-    initial begin
-        count = 0;
-        delay = 10000;
-    end
-
-     // 10ns = 1 clock cycle
-     // 20 sec = 20 x 10^8 clock cycles (time period after which it should reset)
-     // time = delay * maxCount
-     // maxCount = (20 x 10^9) / delaySet
-
     always @(posedge clk) begin
-        if(rst) begin
-            count <= 0;
-            delay <= 0;
-            incremented <= 0;
-        end
+        if(rst) count <= DEFAULT_VALUE;
         else begin
             if(signal) begin
-                if(delay < delaySet) begin
-                    delay <= delay + 1;
-                    incremented <= 0;
-                end
-                else begin 
-                    delay <= 0;
-                    count <= (count == 20/(delaySet/100000000)) ? 0 : count + 1;
-                    incremented <= 1;
-                end
+                count <= count == (MAX_VAL/step) ? DEFAULT_VALUE : count + 1;
+                incremented <= 1;
             end
-            else begin
-                delay <= 0;
-                incremented <= 0;
-            end
-//            else if(signal==2'd2) count = count == 0 ? 16'hFFFF : count - 1;
         end
-
+    
     end
-    
-    
 endmodule

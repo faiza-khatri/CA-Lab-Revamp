@@ -23,7 +23,7 @@ module segTop(
     end
     
     delayCounter #(.DELAY(1024))
-    segDelay (.clk(clk), .rst(rst), .indicator(switchDigit));
+    segDelay (.clk(clk), .rst(rst), .step(10'b1), .indicator(switchDigit));
 
     segControl(.clk(clk), .rst(rst), .switchDigit(switchDigit), .digitSelect(digitSelect));
     

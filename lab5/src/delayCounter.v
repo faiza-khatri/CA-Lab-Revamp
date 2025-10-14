@@ -4,6 +4,7 @@
 module delayCounter #(parameter DELAY = 1000000000) (
     input clk,
     input rst,
+    input [10:0] step,
     output reg indicator = 0
 //    output reg [15:0] led = 0
     );
@@ -19,7 +20,7 @@ module delayCounter #(parameter DELAY = 1000000000) (
 //            led <= 0;
         end
         else begin
-            if(counter == DELAY) begin
+            if(counter == DELAY * step) begin
                 counter <= 0;
                 indicator <= 1;
 //                led <= 1;
