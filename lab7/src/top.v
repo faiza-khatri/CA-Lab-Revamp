@@ -8,10 +8,11 @@ module top(
     );
     
     wire rst;
-    wire newOp, getOperands, operation, incrementAddress, storeResult;
+    wire newOp, getOperands, operating, incrementAddress, storeResult;
     wire carryOut;
     wire [63:0] operand1, operand2, result;
-    wire [3:0] ALUOp;
+    wire [1:0] ALUOp;
+    wire [3:0] funct, operation;
     wire [4:0] rs1, rs2;
     
 //    reg [15:0] resultDisplay;
@@ -24,7 +25,7 @@ module top(
     .newOp(newOp), 
     .incrementAddress(incrementAddress),
     .getOperands(getOperands), 
-    .operation(operation), 
+    .operation(operating), 
     .storeResult(storeResult)
 //    .led(led)
     );
@@ -52,13 +53,20 @@ module top(
     ALUOpGenerator aluOpGen (
         .clk(clk), .rst(rst),
         .rs1(rs1),
-        .ALUOp(ALUOp)
+        .ALUOp(ALUOp),
+        .funct(funct)
         );
+    
+    aluControl aluCtrl (
+        .ALUOp(ALUOp), 
+        .funct(funct), 
+        .operation(operation)
+    );
         
     alu64Bit alu64BitInst(
         .a(operand2),
         .b(operand1),
-        .ALUOp(ALUOp),
+        .ALUOp(operation),
         .result(result),
         .carryOut(carryOut));
     

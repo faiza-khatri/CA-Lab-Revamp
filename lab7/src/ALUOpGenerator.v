@@ -3,14 +3,15 @@
 module ALUOpGenerator(
     input clk, rst,
     input [4:0] rs1,
-    output reg [3:0] ALUOp
+    output reg [1:0] ALUOp = 4'b10,
+    output reg [3:0] funct
     );
     
     always @(posedge clk) begin
-        if(rst) ALUOp <= 4'b0010;
+        if(rst) funct <= 4'b0000;
         else begin
-            if(rs1[1]) ALUOp <= 4'b0010; // add
-            else ALUOp <= 4'b0110; // sub
+            if(rs1[1]) funct <= 4'b0000; // add
+            else funct <= 4'b0110; // sub
         end
     end
 endmodule
