@@ -16,7 +16,7 @@ top uut (
     .rst(rst),
     .a(a),
     .b(b),
-    .operation(operation),
+    .ALUControl(operation),
     .result(result),
     .funct(funct),
     .ALUOp(ALUOp),
