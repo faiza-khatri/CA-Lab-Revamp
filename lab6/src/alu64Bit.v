@@ -5,7 +5,7 @@ module aluNBit#(
     )(
     input  [OPERAND_LENGTH:0] a,
     input  [OPERAND_LENGTH:0] b,
-    input  [3:0] ALUOp,
+    input  [3:0] ALUControl,
     output [OPERAND_LENGTH:0] result,
     output zero, lessThan,
     output carryOut
@@ -28,8 +28,8 @@ generate
             alu1Bit aluInst (
                 .a(a[i]),
                 .b(b[i]),
-                .carryIn( (i==0) ? (ALUOp == 4'b0110) ? 1'b1 : 1'b0 : carry[i-1]),
-                .ALUOp(ALUOp),
+                .carryIn( (i==0) ? (ALUControl == 4'b0110) ? 1'b1 : 1'b0 : carry[i-1]),
+                .ALUControl(ALUControl),
                 .result(res[i]),
                 .carryOut(carry[i])
             );
@@ -37,11 +37,11 @@ generate
 endgenerate
 
 
-always @(ALUOp) begin
+always @(ALUControl) begin
    resSlli = a >> b;
 end
 
-assign result = (ALUOp == 4'b0100) ? resSlli : res;
+assign result = (ALUControl == 4'b0100) ? resSlli : res;
 
 
 endmodule

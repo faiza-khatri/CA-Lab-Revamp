@@ -4,7 +4,7 @@ module alu1Bit(
     input  a,
     input  b,
     input  carryIn,
-    input  [3:0] ALUOp,
+    input  [3:0] ALUControl,
     output reg result,
     output carryOut
 );
@@ -12,9 +12,9 @@ module alu1Bit(
 wire sum, and_ab, or_ab, xor_ab;
 wire bFinal, aFinal;
 
-assign aFinal = ALUOp[3] ? ~a : a;
-assign bFinal = ALUOp[2] ? ~b : b;
-//assign bFinal = (ALUOp == 4'b0110) ? ~b : b;
+assign aFinal = ALUControl[3] ? ~a : a;
+assign bFinal = ALUControl[2] ? ~b : b;
+//assign bFinal = (ALUControl == 4'b0110) ? ~b : b;
 
 assign and_ab = aFinal & bFinal;
 assign or_ab  = aFinal | bFinal;
@@ -22,7 +22,7 @@ assign or_ab  = aFinal | bFinal;
 assign {carryOut, sum} = aFinal + bFinal + carryIn;
 
 always @(*) begin
-    case (ALUOp)
+    case (ALUControl)
         4'b0000: result = and_ab;
         4'b0001: result = or_ab;
         4'b0010: result = sum;          // add
