@@ -13,13 +13,19 @@ module segTop(
     output [3:0] an
     );
     
-    reg [15:0] resultDisplay;
+    reg [7:0] resultDisplay [3:0];
     wire switchDigit;
     wire [1:0] digitSelect;
     
     always @(posedge clk) begin
-        if(rst) resultDisplay <= 0;
-        else if(writeEnable) resultDisplay <= writeData[15:0];
+        if(rst) begin
+            resultDisplay[0] <= 0;
+            resultDisplay[1] <= 0;
+        end
+        else if(writeEnable) begin
+            resultDisplay[0] <= writeData[7:0];
+            resultDisplay[1] <= writeData[15:8];
+        end
     end
     
     delayCounter #(.DELAY(1024))
@@ -27,6 +33,6 @@ module segTop(
 
     segControl(.clk(clk), .rst(rst), .switchDigit(switchDigit), .digitSelect(digitSelect));
     
-    sevenSeg displaySeg(.clk(clk), .rst(rst), .result(resultDisplay), .digitSelect(digitSelect), .seg(seg), .an(an));
+    sevenSeg displaySeg(.clk(clk), .rst(rst), .result({resultDisplay[1], resultDisplay[0]}), .digitSelect(digitSelect), .seg(seg), .an(an));
     
 endmodule

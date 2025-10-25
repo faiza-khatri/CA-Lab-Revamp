@@ -12,8 +12,17 @@ module switches(
     output reg  [31:0] readData
     );
     
+    reg [7:0] switchData [3:0]; 
+    always @(*) begin
+        switchData[0] = switches[7:0];
+        switchData[1] = switches[15:8];
+    end
+    
     always @(posedge clk) begin
-        if(readEnable) readData <= {28'b0, switches};
+        if(readEnable) readData <= {switchData[memAddress+3],
+			switchData[memAddress+2],
+			switchData[memAddress+1],
+			switchData[memAddress]};
     end
 endmodule
 
