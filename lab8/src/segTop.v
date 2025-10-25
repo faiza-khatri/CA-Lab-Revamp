@@ -23,8 +23,8 @@ module segTop(
             resultDisplay[1] <= 0;
         end
         else if(writeEnable) begin
-            resultDisplay[0] <= writeData[7:0];
-            resultDisplay[1] <= writeData[15:8];
+            resultDisplay[memAddress] <= writeData[7:0];
+            resultDisplay[memAddress+1] <= writeData[15:8];
         end
     end
     
