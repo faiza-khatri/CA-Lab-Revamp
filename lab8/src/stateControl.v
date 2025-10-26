@@ -29,6 +29,7 @@ module stateControl(
         readEnable <= 0;
         writeEnable <= 0;
         writeOut <= 0;
+        // for this purpose, address offset is always 0 - can be changed
         case(state)
             READ_IN: begin
                 address <= 32'h80000000; // switch

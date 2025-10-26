@@ -4,7 +4,7 @@ module dataMemory(
 //    input [63:0] writeData,
     input clk, rst,
     input writeEnable, readEnable,
-    input [63:0] memAddress,
+    input [29:0] memAddress,
     input [31:0] writeData,
     output reg [31:0] readData
 //	output reg [63:0] readData

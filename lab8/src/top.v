@@ -31,7 +31,7 @@ module top(
     addressDecoderTop addressDecoderInst (
         .clk(clk), .rst(rst),
         .address(address),
-        .memAddress(64'b0), // for this purpose, write to a single mem location (can be changed if needed)
+//        .memAddress(64'b0), // for this purpose, write to a single mem location (can be changed if needed)
         .readEnable(readEnable),
         .writeEnable(writeEnable),
         .writeData(writeData),

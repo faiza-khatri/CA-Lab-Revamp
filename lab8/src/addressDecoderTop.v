@@ -3,7 +3,7 @@
 module addressDecoderTop(
     input clk, rst,
     input [31:0] address,
-    input [63:0] memAddress,
+//    input [63:0] memAddress,
     input readEnable, writeEnable,
     input [31:0] writeData,
     input [15:0] switches,
@@ -47,7 +47,7 @@ module addressDecoderTop(
         .writeData(writeData),
         .writeEnable(ledWriteEnable),
         .readEnable(1'b0), // output device is not read
-        .memAddress(64'b0),
+        .memAddress(address[29:0]),
         .seg(seg),
         .an(an)
         );
@@ -58,6 +58,7 @@ module addressDecoderTop(
         .writeEnable(1'b0), // input device is not written
         .writeData(32'b0),
         .switches(switches),
+        .memAddress(address[29:0]),
         .readEnable(readEnable && selSwitch),
         .readData(switchReadData)
         );
@@ -67,7 +68,7 @@ module addressDecoderTop(
         .rst(rst),
         .writeEnable(dataMemWriteEnable),
         .writeData(writeData),
-        .memAddress(memAddress),
+        .memAddress(address[29:0]),
         .readEnable(readEnable && selDataMem),
         .readData (dataMemReadData)
         );

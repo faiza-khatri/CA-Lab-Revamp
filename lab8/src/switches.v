@@ -6,7 +6,7 @@ module switches(
     input [31:0] writeData, //  not to be written
     input writeEnable, // not to be used
     input readEnable,
-    input [63:0] memAddress,
+    input [29:0] memAddress,
     input [15:0] switches,
     
     output reg  [31:0] readData
