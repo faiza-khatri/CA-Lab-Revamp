@@ -15,10 +15,13 @@ module processor #(
     
     );
     
-    //assign leds = writeDataMem[15:0];
     
     wire [OPERAND_LENGTH:0] seqOut, PCIn, PCOut;
     wire [OPERAND_LENGTH:0] writeDataReg;
+    
+    assign leds[0] = rst;
+    assign leds[15:1] = 0;
+    
     
     programCounter #(
         .OPERAND_LENGTH(OPERAND_LENGTH)
@@ -74,8 +77,7 @@ module processor #(
         .regWrite(regWrite),
         .writeData(writeDataReg),
         .readData1(readData1),
-        .readData2(readData2),
-        .leds(leds)
+        .readData2(readData2)
         );
         
     wire [OPERAND_LENGTH:0] secondOperand;

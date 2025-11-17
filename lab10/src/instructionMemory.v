@@ -178,39 +178,40 @@ module instructionMemory #(
 reg [7:0] memory [0:255];     // make it bigger
 
 initial begin
-//    // ----------------------------------------
-//    // x5 = base address of SWITCHES = 0x80000000
-//    // ----------------------------------------
-//    // lui  x5, 0x80000
-//    memory[3] = 8'h80; memory[2] = 8'h00; memory[1] = 8'h02; memory[0] = 8'hB7;
 
-//    // ----------------------------------------
-//    // x6 = base address of DISPLAY = 0x40000000
-//    // ----------------------------------------
-//    // lui  x6, 0x40000 
-//    memory[7] = 8'h40; memory[6] = 8'h00; memory[5] = 8'h03; memory[4] = 8'h37;
+    // CURRENTLY RUNNING CODE:
+//_start:
 
-////LOOP:
-//    // ----------------------------------------
-//    // lw x7, 0(x5)      ; read switches[15:0]
-//    // ----------------------------------------
-//    memory[11] = 8'h00; memory[10] = 8'h02; memory[9] = 8'hA3; memory[8] = 8'h83;
+//lui     x5, 0x80000       # x5 = 0x80000000 (switch input)
+// lui     x6, 0x40000       # x6 = 0x40000000 (write-only output)
 
-//    // ----------------------------------------
-//    // sw x7, 0(x6)      ; write to 7-segment display
-//    // ----------------------------------------
-//    memory[15] = 8'h00; memory[14] = 8'h73; memory[13] = 8'h20; memory[12] = 8'h23;
+//READ_SWITCHES:
+//    lw      x8, 0(x5)         # read switches
+//    sw      x8, 0(x6)               # write updated value
 
-//    // ----------------------------------------
-//    // beq x0, x0, LOOP  ; infinite loop
-//    // ----------------------------------------
-//    memory[19] = 8'hFE; memory[18] = 8'h00; memory[17] = 8'h08; memory[16] = 8'hE3;
+//COUNTDOWN:
+//    beq     x8, x0, READ_SWITCHES   # if countdown = 0 ? re-read switches
+//    sw      x8, 0(x6)               # write updated value
+
+//    li x9, 64
+
+//DELAY:
+//    addi x9, x9, -1
+//    bne     x9, x0, DELAY           # repeat delay loop
+//    addi    x8, x8, -1              # decrement
+
+//    # unconditional branch using beq x0, x0
+//    beq     x0, x0, COUNTDOWN
+
+
     
     // lui x5, 0x80000000
     memory[3] = 8'h80; memory[2] = 8'h00; memory[1] = 8'h02; memory[0] = 8'hB7;
     
     // lui x6, 0x40000000
     memory[7] = 8'h40; memory[6] = 8'h00; memory[5] = 8'h03; memory[4] = 8'h37;
+    
+    
     
     // lw x8, 0(x5) load switch value
     memory[11] = 8'h00; memory[10] = 8'h02; memory[9] = 8'hA4; memory[8] = 8'h03;

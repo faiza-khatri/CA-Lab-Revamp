@@ -21,7 +21,7 @@ module topProc(
         );
 
     debouncer debounceBtn (
-        .clk(clk),
+        .clk(clk100MHz),
         .pbin(btnC),
         .pbout(rst)
         );

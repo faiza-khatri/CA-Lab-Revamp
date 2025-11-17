@@ -11,27 +11,26 @@ module registerFile # (
     input clk,
     input rst,
     output reg [OPERAND_LENGTH:0] readData1,
-    output reg [OPERAND_LENGTH:0] readData2,
+    output reg [OPERAND_LENGTH:0] readData2
     
-    output [15:0] leds
     );
     
 reg [OPERAND_LENGTH:0] registers [31:0];
 
-assign leds = registers[9][15:0];
+
 
 integer i;
 
 initial begin
     for(i = 0; i < OPERAND_LENGTH+1; i=i+1) begin
-        registers[i] = {OPERAND_LENGTH+1{1'b0}} + i; 
+        registers[i] = {OPERAND_LENGTH+1{1'b0}}; 
     end 
 end
 
 always@(posedge clk or posedge rst) begin
     if(rst) begin
         for(i = 0; i < 32; i=i+1) begin
-            registers[i] = {OPERAND_LENGTH+1{1'b0}} + i; 
+            registers[i] = {OPERAND_LENGTH+1{1'b0}}; 
         end 
     end
     else if(regWrite) registers[rd] <= writeData;
